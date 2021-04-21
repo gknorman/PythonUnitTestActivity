@@ -1,7 +1,13 @@
 import unittest
+import sys
+import os
+
+
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
 from classes.validator import Validator
-
 
 class TestValidator(unittest.TestCase):
 
@@ -47,3 +53,13 @@ class TestValidator(unittest.TestCase):
 
         # Assert
         self.assertTrue(result)
+        
+    def test_it_will_reject_username_if_there_is_a_special_character(self):
+        # Assume
+        username = 'Reval$%^&*()#@'
+
+        # Action
+        result = self.validator.username_is_valid(username)
+
+        # Assert
+        self.assertFalse(result)
